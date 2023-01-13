@@ -54,8 +54,39 @@ app.use(
   })
 );
 app.use(xssclean());
+app.use(function (req, res, next) {
+  res.set("x-timestamp", Date.now());
+  res.set("x-powered-by", "cyclic.sh");
+  console.log(
+    `[${new Date().toISOString()}] ${req.ip} ${req.method} ${req.path}`
+  );
+  next();
+});
 
-app.use("/", express.static("./client/build"));
+app.use(
+  "/",
+  express.static("./client/build", {
+    dotfiles: "ignore",
+    etag: false,
+    extensions: [
+      "htm",
+      "html",
+      "css",
+      "js",
+      "ico",
+      "jpg",
+      "jpeg",
+      "png",
+      "svg",
+      "json",
+      "txt",
+      "map",
+    ],
+    index: ["index.html"],
+    maxAge: "1m",
+    redirect: false,
+  })
+);
 
 app.get("/api/v1", (req, res) => {
   res.send("Chatverse server ver. 1.0.0a");
