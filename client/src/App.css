@@ -1,0 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:wght@300&display=swap");
+
+.App {
+  background-size: cover;
+  min-height: 100vh;
+  min-width: 100vw;
+}
