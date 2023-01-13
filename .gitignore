@@ -1,0 +1,5 @@
+node_modules
+.env
+tmp
+client/node_modules
+client/start.bat
