@@ -244,14 +244,15 @@ const SingleChat = () => {
             <FormControl onKeyDown={sendMessage} isRequired mt={3}>
               {isTyping && (
                 <div>
-                  <Lottie
+                  {/* <Lottie
                     options={lottieDefaultOptions}
                     width={70}
                     style={{
                       marginBottom: 15,
                       marginLeft: 0,
                     }}
-                  />
+                  /> */}
+                  Typing...
                 </div>
               )}
               <Input
