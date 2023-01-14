@@ -31,7 +31,7 @@ const GroupChatModal = ({ children }) => {
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
-    user: { token },
+    user: {user, token },
     chats,
     setChats,
     setSelectedChat,
@@ -167,6 +167,7 @@ const GroupChatModal = ({ children }) => {
                 return (
                   <UserBadgeItem
                     key={u._id}
+                    isAdmin={u._id===user._id}
                     user={u}
                     handleFunction={() => handleDelete(u)}
                   />

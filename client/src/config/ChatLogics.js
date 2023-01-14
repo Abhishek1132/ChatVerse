@@ -29,7 +29,7 @@ export const isSameSenderMargin = (messages, m, i, userId) => {
     messages[i + 1].sender._id === m.sender._id &&
     messages[i].sender._id !== userId
   )
-    return 33;
+    return 21;
   else if (
     (i < messages.length - 1 &&
       messages[i + 1].sender._id !== m.sender._id &&
@@ -40,6 +40,19 @@ export const isSameSenderMargin = (messages, m, i, userId) => {
   else return "auto";
 };
 
-export const isSameUser = (messages, m, i) => {
-  return i > 0 && messages[i - 1].sender._id === m.sender._id;
+export const isUpperUserSame = (messages, m, i) => {
+  if (i <= 0) {
+    return false;
+  }
+
+  return messages[i - 1].sender._id === m.sender._id;
+};
+
+export const isSameUser = (m, userId) => {
+  return userId === m.sender._id;
+};
+
+export const getTimeMS = (time) => {
+  const d = time.split(/[T.]/)[1].split(":");
+  return d[0] + ":" + d[1];
 };

@@ -1,7 +1,7 @@
 import { CloseIcon } from "@chakra-ui/icons";
 import { Box, useColorMode } from "@chakra-ui/react";
 
-const UserBadgeItem = ({ user, handleFunction }) => {
+const UserBadgeItem = ({ user, isAdmin, handleFunction }) => {
   const { colorMode } = useColorMode();
   return (
     <Box
@@ -13,8 +13,15 @@ const UserBadgeItem = ({ user, handleFunction }) => {
       fontSize={12}
       cursor="pointer"
       borderWidth="thin"
-      bg={colorMode === "light" ? "purple.100" : "purple.400"}
+      bg={
+        isAdmin
+          ? "yellow.300"
+          : colorMode === "light"
+          ? "purple.100"
+          : "purple.400"
+      }
       onClick={handleFunction}
+      color={isAdmin && "black"}
     >
       {user.name}
       <CloseIcon pl="1" />

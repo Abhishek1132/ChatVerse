@@ -9,7 +9,6 @@ import {
   useColorMode,
   useToast,
 } from "@chakra-ui/react";
-import Lottie from "react-lottie";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import apiUrl, { ENDPOINT } from "../config/urlconfig";
@@ -20,8 +19,6 @@ import ProfileModal from "./miscellaneous/ProfileModal";
 import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
 import ScrollableChat from "./ScrollableChat";
 import io from "socket.io-client";
-import typingAnimation from "../animations/typinganimation.json";
-import typingAnimation2 from "../animations/typinganimation2.json";
 
 let socket, selectedChatCompare;
 
@@ -32,6 +29,7 @@ const SingleChat = () => {
   const [socketConnected, setSocketConnected] = useState(false);
   const [typing, setTyping] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
+  const [userTyping, setUserTyping] = useState("");
   const [stopTypingTimeoutId, setStopTypingTimeoutId] = useState(null);
 
   const {
@@ -45,15 +43,6 @@ const SingleChat = () => {
   } = useContext(ChatContext);
   const toast = useToast();
   const { colorMode } = useColorMode();
-
-  const lottieDefaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: colorMode === "light" ? typingAnimation : typingAnimation2,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
-  };
 
   const fetchMessages = async () => {
     if (!selectedChat) {
@@ -117,11 +106,12 @@ const SingleChat = () => {
     socket = io(ENDPOINT);
     socket.emit("setup", user);
     socket.on("connected", () => setSocketConnected(true));
-    socket.on("typing", (room) => {
+    socket.on("typing", (room, username) => {
       if (selectedChatCompare._id !== room) {
         return;
       }
       setIsTyping(true);
+      setUserTyping(username);
     });
     socket.on("stop typing", (room) => {
       if (selectedChatCompare._id !== room) {
@@ -162,7 +152,7 @@ const SingleChat = () => {
     }
     if (!typing) {
       setTyping(true);
-      socket.emit("typing", selectedChat._id);
+      socket.emit("typing", selectedChat._id, user.name);
     }
     clearTimeout(stopTypingTimeoutId);
     let lastTypingTime = new Date().getTime();
@@ -243,16 +233,8 @@ const SingleChat = () => {
             )}
             <FormControl onKeyDown={sendMessage} isRequired mt={3}>
               {isTyping && (
-                <div>
-                  {/* <Lottie
-                    options={lottieDefaultOptions}
-                    width={70}
-                    style={{
-                      marginBottom: 15,
-                      marginLeft: 0,
-                    }}
-                  /> */}
-                  Typing...
+                <div style={{ marginLeft: "5px" }}>
+                  {userTyping.split(" ")[0]} is typing...
                 </div>
               )}
               <Input

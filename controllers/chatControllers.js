@@ -1,5 +1,6 @@
 const { BadRequestError, NotFoundError } = require("../errors");
 const Chat = require("../models/chatModel");
+const Message = require("../models/messageModel");
 const User = require("../models/userModel");
 
 const accessChats = async (req, res) => {
@@ -132,7 +133,7 @@ const addToGroup = async (req, res) => {
 const removeFromGroup = async (req, res) => {
   const { chatId, userId } = req.body;
 
-  const chat = await Chat.findOneAndUpdate(
+  let chat = await Chat.findOneAndUpdate(
     { _id: chatId },
     {
       $pull: { users: userId },
@@ -140,13 +141,33 @@ const removeFromGroup = async (req, res) => {
     {
       new: true,
     }
-  )
-    .populate("users", "-password")
-    .populate("groupAdmin", "-password");
+  );
 
   if (!chat) {
     throw new NotFoundError("No group chat found with chatId:" + chatId);
   }
+
+  if (chat.users.length <= 1) {
+    chat = await Chat.findOneAndDelete({ _id: chatId });
+    await Message.deleteMany({ chat: chatId });
+
+    return res.json({ chat });
+  }
+
+  if (chat.groupAdmin == userId) {
+    console.log("admin removed");
+    chat = await Chat.findOneAndUpdate(
+      { _id: chatId },
+      { groupAdmin: chat.users[0] },
+      {
+        new: true,
+      }
+    );
+  }
+
+  chat = await Chat.find({ _id: chatId })
+    .populate("users", "-password")
+    .populate("groupAdmin", "-password");
 
   res.json({ chat });
 };

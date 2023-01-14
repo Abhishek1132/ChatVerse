@@ -112,16 +112,17 @@ const MyChats = () => {
                     bg={
                       colorMode === "light"
                         ? selectedChat && selectedChat._id === chat._id
-                          ? "green.100"
+                          ? "cyan.200"
                           : "blackAlpha.200"
                         : selectedChat && selectedChat._id === chat._id
-                        ? "green.400"
+                        ? "cyan.600"
                         : "whiteAlpha.300"
                     }
                     px={3}
                     py={2}
                     cursor="pointer"
                     borderRadius="lg"
+                    fontFamily="Work Sans"
                   >
                     <Text>
                       <b>
@@ -138,9 +139,12 @@ const MyChats = () => {
                         w="100%"
                         whiteSpace="nowrap"
                       >
-                        <i style={{ color: "green" }}>
-                          {chat.latestMessage.sender.name}:{" "}
-                        </i>
+                        <span style={{ fontWeight: "bold" }}>
+                          {chat.latestMessage.sender._id === user._id
+                            ? "You"
+                            : chat.latestMessage.sender.name.split(" ")[0]}
+                          :{" "}
+                        </span>
 
                         {chat.latestMessage.content}
                       </Text>

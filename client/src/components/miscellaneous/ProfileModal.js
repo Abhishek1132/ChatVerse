@@ -60,7 +60,8 @@ const ProfileModal = ({ user, children }) => {
               borderColor="primary"
             /> */}
             <Avatar
-              size="2xl"
+              w="15rem"
+              h="15rem"
               cursor="pointer"
               name={user.name}
               src={user.profilePic}

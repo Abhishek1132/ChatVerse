@@ -6,7 +6,7 @@ require("express-async-errors");
 const helmet = require("helmet");
 const xssclean = require("xss-clean");
 const rateLimiter = require("express-rate-limit");
-// const cors = require("cors");
+const cors = require("cors");
 
 //app
 const express = require("express");
@@ -26,6 +26,7 @@ const chatRoutes = require("./routes/chatRoutes");
 const messageRoutes = require("./routes/messageRoutes");
 
 const { Server } = require("socket.io");
+const logger = require("./middlewares/logger");
 const app = express();
 
 app.set("trust proxy", 1);
@@ -43,7 +44,7 @@ app.use(
     tempFileDir: path.join(__dirname, "./tmp"),
   })
 );
-// app.use(cors());
+
 app.use(
   helmet.contentSecurityPolicy({
     useDefaults: true,
@@ -54,42 +55,39 @@ app.use(
   })
 );
 app.use(xssclean());
-app.use(function (req, res, next) {
-  res.set("x-timestamp", Date.now());
-  res.set("x-powered-by", "cyclic.sh");
-  console.log(
-    `[${new Date().toISOString()}] ${req.ip} ${req.method} ${req.path}`
-  );
-  next();
-});
 
-app.use(
-  "/",
-  express.static("./client/build", {
-    dotfiles: "ignore",
-    etag: false,
-    extensions: [
-      "htm",
-      "html",
-      "css",
-      "js",
-      "ico",
-      "jpg",
-      "jpeg",
-      "png",
-      "svg",
-      "json",
-      "txt",
-      "map",
-    ],
-    index: ["index.html"],
-    maxAge: "1m",
-    redirect: false,
-  })
-);
+if (process.env.NODE_ENV === "production") {
+  app.use(logger);
+  app.use(
+    "/",
+    express.static("./client/build", {
+      dotfiles: "ignore",
+      etag: false,
+      extensions: [
+        "htm",
+        "html",
+        "css",
+        "js",
+        "ico",
+        "jpg",
+        "jpeg",
+        "png",
+        "svg",
+        "json",
+        "txt",
+        "map",
+      ],
+      index: ["index.html"],
+      maxAge: "1m",
+      redirect: false,
+    })
+  );
+} else {
+  app.use(cors());
+}
 
 app.get("/api/v1", (req, res) => {
-  res.send("Chatverse server ver. 1.0.0a");
+  res.send("Chatverse server ver. 1.0.1");
 });
 
 app.use("/api/v1/auth", authRoutes);
@@ -99,9 +97,11 @@ app.use("/api/v1/messages", authentication, messageRoutes);
 
 app.use(errorHandler);
 
-app.get("*", (req, res) => {
-  res.redirect("/");
-});
+if (process.env.NODE_ENV === "production") {
+  app.get("*", (req, res) => {
+    res.redirect("/");
+  });
+}
 
 app.use(routeNotFound);
 
@@ -117,7 +117,7 @@ const startServer = async () => {
     const io = new Server(server, {
       pingTimout: 60000,
       cors: {
-        origin: "/",
+        origin: process.env.NODE_ENV === "production" ? "/" : "*",
       },
     });
 
@@ -133,7 +133,9 @@ const startServer = async () => {
         socket.emit("connected");
       });
 
-      socket.on("typing", (room) => socket.to(room).emit("typing", room));
+      socket.on("typing", (room, username) =>
+        socket.to(room).emit("typing", room, username)
+      );
       socket.on("stop typing", (room) =>
         socket.to(room).emit("stop typing", room)
       );

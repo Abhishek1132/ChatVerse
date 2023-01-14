@@ -243,6 +243,7 @@ const UpdateGroupChatModal = () => {
                 return (
                   <UserBadgeItem
                     key={u._id}
+                    isAdmin={u._id === selectedChat.groupAdmin._id}
                     user={u}
                     handleFunction={() => handleRemove(u)}
                   />
