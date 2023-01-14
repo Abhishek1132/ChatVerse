@@ -1,5 +1,5 @@
-export const ENDPOINT = "http://localhost:5000";
+export const ENDPOINT = "/";
 
-const apiUrl = ENDPOINT + "/api/v1";
+const apiUrl = ENDPOINT + "api/v1";
 
 export default apiUrl;
