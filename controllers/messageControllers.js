@@ -42,7 +42,32 @@ const allMessages = async (req, res) => {
   res.json(messages);
 };
 
+const deleteMessage = async (req, res) => {
+  const { messageId } = req.params;
+
+  const message = await Message.findOneAndDelete({
+    _id: messageId,
+    sender: req.user._id,
+  });
+
+  if (!message) {
+    throw new BadRequestError("No Message Found for Id: " + messageId);
+  }
+
+  const allMessages = await Message.find({ chat: message.chat });
+
+  if (allMessages.length > 0) {
+    await Chat.findOneAndUpdate(
+      { _id: message.chat },
+      { latestMessage: allMessages[allMessages.length - 1]._id }
+    );
+  }
+
+  res.json(message);
+};
+
 module.exports = {
   sendMessage,
   allMessages,
+  deleteMessage,
 };

@@ -128,8 +128,6 @@ const SingleChat = () => {
 
   useEffect(() => {
     socket.on("message received", (newMessageReceived) => {
-      // console.log(newMessageReceived);
-      console.log("selectedChatCompare ", selectedChatCompare);
       if (
         !selectedChatCompare ||
         selectedChatCompare._id !== newMessageReceived.chat._id
@@ -228,7 +226,7 @@ const SingleChat = () => {
                   scrollbarWidth: "none",
                 }}
               >
-                <ScrollableChat messages={messages} />
+                <ScrollableChat messages={messages} setMessages={setMessages} />
               </Box>
             )}
             <FormControl onKeyDown={sendMessage} isRequired mt={3}>

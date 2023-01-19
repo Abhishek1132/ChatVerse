@@ -52,7 +52,41 @@ export const isSameUser = (m, userId) => {
   return userId === m.sender._id;
 };
 
-export const getTimeMS = (time) => {
-  const d = time.split(/[T.]/)[1].split(":");
-  return d[0] + ":" + d[1];
+export const getDateDMY = (date) => {
+  const d = date.getDate();
+  const m = date.getMonth() + 1;
+  const y = date.getFullYear();
+  let ds = "";
+  if (d < 10) {
+    ds = "0" + d;
+  } else {
+    ds += d;
+  }
+  let ms = "";
+  if (m < 10) {
+    ms = "0" + m;
+  } else {
+    ms += m;
+  }
+
+  return ds + "-" + ms + "-" + y;
+};
+
+export const getTimeMS = (date) => {
+  const h = date.getHours();
+  const m = date.getMinutes();
+  let hs = "";
+  if (h < 10) {
+    hs = "0" + h;
+  } else {
+    hs += h;
+  }
+  let ms = "";
+  if (m < 10) {
+    ms = "0" + m;
+  } else {
+    ms += m;
+  }
+
+  return hs + ":" + ms;
 };

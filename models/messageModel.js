@@ -11,6 +11,8 @@ const MessageModel = Schema(
       type: String,
       required: true,
       trim: true,
+      minlength: 1,
+      maxlength: 10000,
     },
     chat: {
       type: Schema.Types.ObjectId,

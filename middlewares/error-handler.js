@@ -1,7 +1,9 @@
 const { StatusCodes } = require("http-status-codes");
 
 const errorHandler = async (err, req, res, next) => {
-  console.error(err);
+  if (process.env.NODE_ENV !== "production") {
+    console.error(err);
+  }
   const customError = {
     statusCode: err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
     error: err.message || "Internal Server Error! Try Again Later.",

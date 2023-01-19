@@ -15,6 +15,7 @@ import { showError } from "../config/errors";
 import { ChatContext } from "../Context/ChatProvider";
 import ChatLoading from "./ChatLoading";
 import GroupChatModal from "./miscellaneous/GroupChatModal";
+import NotificationBadge from "react-notification-badge/lib/components/NotificationBadge";
 
 const MyChats = () => {
   const toast = useToast();
@@ -28,6 +29,8 @@ const MyChats = () => {
     setChats,
     fetchAgain,
     handleLogout,
+    notification,
+    setNotification,
   } = useContext(ChatContext);
 
   const fetchChats = useCallback(async () => {
@@ -105,10 +108,23 @@ const MyChats = () => {
           ) : (
             <Stack overflowY="scroll" pr={1}>
               {chats.map((chat) => {
+                let noNoti = 0;
+                notification.forEach((noti) => {
+                  if (noti.chat._id === chat._id) {
+                    noNoti = noNoti + 1;
+                  }
+                });
                 return (
                   <Box
                     key={chat._id}
-                    onClick={() => setSelectedChat(chat)}
+                    onClick={() => {
+                      setSelectedChat(chat);
+                      setNotification(
+                        notification.filter((noti) => {
+                          return noti.chat._id !== chat._id;
+                        })
+                      );
+                    }}
                     bg={
                       colorMode === "light"
                         ? selectedChat && selectedChat._id === chat._id
@@ -124,13 +140,43 @@ const MyChats = () => {
                     borderRadius="lg"
                     fontFamily="Work Sans"
                   >
-                    <Text>
+                    <Text display="flex" justifyContent="space-between">
                       <b>
                         {!chat.isGroupChat
                           ? getSender(user, chat.users)
                           : chat.chatName}
                       </b>
+                      {noNoti > 0 && (
+                        // <span
+                        //   style={{
+                        //     minWidth: "25px",
+                        //     padding: "2px",
+                        //     height: "25px",
+                        //     borderRadius: "50%",
+                        //     background: "red",
+                        //     color: "white",
+                        //     display: "flex",
+                        //     justifyContent: "center",
+                        //     alignItems: "center",
+                        //     fontWeight: "bold",
+                        //     fontFamily: "sans-serif",
+                        //   }}
+                        // >
+                        //   {noNoti}
+                        // </span>
+                        <span
+                          style={{
+                            position: "absolute",
+                            zIndex: "3",
+                            fontFamily: "sans-serif",
+                            marginLeft: "-4px",
+                          }}
+                        >
+                          <NotificationBadge count={noNoti} />
+                        </span>
+                      )}
                     </Text>
+
                     {chat.latestMessage && (
                       <Text
                         fontSize="xs"
@@ -138,6 +184,7 @@ const MyChats = () => {
                         overflow="hidden"
                         w="100%"
                         whiteSpace="nowrap"
+                        opacity={0.7}
                       >
                         <span style={{ fontWeight: "bold" }}>
                           {chat.latestMessage.sender._id === user._id
