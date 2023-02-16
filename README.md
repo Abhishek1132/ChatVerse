@@ -11,6 +11,10 @@ Uses Socket.io for real time communication and stores user details in encrypted 
 
 **Database:** Mongo DB
 
+## Demo
+
+https://chatverseapp.onrender.com/
+
 ## Run Locally
 
 Clone the project
