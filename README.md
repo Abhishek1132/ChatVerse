@@ -44,6 +44,17 @@ https://chatverseapp.onrender.com/
 
 ## Run Locally
 
+Setup .env file
+
+```
+  MONGO_URI=/* your mongodb url */
+  JWT_SECRET=/* jwt secret */
+  JWT_EXPIRY=/* token expiry. e.g: 30d */
+  CLOUDINARY_URL=/* cloudinary url*/
+  NODE_ENV=/* production or development */
+```
+
+
 Clone the project
 
 ```bash
