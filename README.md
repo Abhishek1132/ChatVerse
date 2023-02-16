@@ -44,6 +44,12 @@ https://chatverseapp.onrender.com/
 
 ## Run Locally
 
+Clone the project
+
+```bash
+  git clone https://github.com/Abhishek1132/ChatVerse.git
+```
+
 Setup .env file
 
 ```
@@ -52,13 +58,6 @@ Setup .env file
   JWT_EXPIRY=/* token expiry. e.g: 30d */
   CLOUDINARY_URL=/* cloudinary url*/
   NODE_ENV=/* production or development */
-```
-
-
-Clone the project
-
-```bash
-  git clone https://github.com/Abhishek1132/ChatVerse.git
 ```
 
 Install dependencies
