@@ -1,11 +1,60 @@
 # ChatVerse App
 
-App for chatting made using MERN stack, ChakraUI
+Chatverse is a Full Stack Chatting App.
+Uses Socket.io for real time communication and stores user details in encrypted format in Mongo DB Database.
+
+## Tech Stack
+
+**Client:** React JS
+
+**Server:** Node JS, Express JS
+
+**Database:** Mongo DB
+
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone https://github.com/Abhishek1132/ChatVerse.git
+```
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+```bash
+  cd client/
+  npm install
+```
+
+Start the server
+
+```bash
+  npm run start
+```
+Start the Client
+
+```bash
+  //open now terminal
+  cd client
+  npm start
+```
 
 ## Features
 
-Realtime Chatting feature with instant send and receive.
+Realtime Chatting feature with instant send-receive and typing indicator.
 
-Users can create and login using their emails and find other users to chat within few seconds.
+Realtime instant notifications.
 
-Group chats can be created to chat between multiple people at the same time.
+User authentication.
+
+User can find other users by name or email to chat within seconds.
+
+Users can view others profiles.
+
+Group chats for chatting between multiple people at the same time.
+
+Group admins can add, remove and update group.
