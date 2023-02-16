@@ -41,7 +41,6 @@ https://chatverseapp.onrender.com/
 ![](https://raw.githubusercontent.com/Abhishek1132/ChatVerse/main/screenshots/profile.png)
 ![](https://raw.githubusercontent.com/Abhishek1132/ChatVerse/main/screenshots/creategroup.png)
 ![](https://raw.githubusercontent.com/Abhishek1132/ChatVerse/main/screenshots/groupedit.png)
-![](https://raw.githubusercontent.com/Abhishek1132/ChatVerse/main/screenshots/creategroup.png)
 
 ## Run Locally
 
