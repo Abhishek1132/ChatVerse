@@ -11,9 +11,37 @@ Uses Socket.io for real time communication and stores user details in encrypted 
 
 **Database:** Mongo DB
 
+
+## Features
+
+Realtime Chatting feature with instant send-receive and typing indicator.
+
+Realtime instant notifications.
+
+User authentication.
+
+User can find other users by name or email to chat within seconds.
+
+Users can view others profiles.
+
+Group chats for chatting between multiple people at the same time.
+
+Group admins can add, remove and update group.
+
 ## Demo
 
 https://chatverseapp.onrender.com/
+
+## Screenshots
+
+![](https://raw.githubusercontent.com/Abhishek1132/ChatVerse/main/screenshots/loginpage.png)
+![](https://raw.githubusercontent.com/Abhishek1132/ChatVerse/main/screenshots/signuppage.png)
+![](https://raw.githubusercontent.com/Abhishek1132/ChatVerse/main/screenshots/searchusers.png)
+![](https://raw.githubusercontent.com/Abhishek1132/ChatVerse/main/screenshots/normalchat.png)
+![](https://raw.githubusercontent.com/Abhishek1132/ChatVerse/main/screenshots/profile.png)
+![](https://raw.githubusercontent.com/Abhishek1132/ChatVerse/main/screenshots/creategroup.png)
+![](https://raw.githubusercontent.com/Abhishek1132/ChatVerse/main/screenshots/groupedit.png)
+![](https://raw.githubusercontent.com/Abhishek1132/ChatVerse/main/screenshots/creategroup.png)
 
 ## Run Locally
 
@@ -47,18 +75,4 @@ Start the Client
   npm start
 ```
 
-## Features
 
-Realtime Chatting feature with instant send-receive and typing indicator.
-
-Realtime instant notifications.
-
-User authentication.
-
-User can find other users by name or email to chat within seconds.
-
-Users can view others profiles.
-
-Group chats for chatting between multiple people at the same time.
-
-Group admins can add, remove and update group.
