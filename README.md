@@ -38,7 +38,7 @@ Start the server
 Start the Client
 
 ```bash
-  //open now terminal
+  //open new terminal
   cd client
   npm start
 ```
